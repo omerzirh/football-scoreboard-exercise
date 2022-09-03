@@ -1,0 +1,1 @@
+export const MATCH_DURATION = 30; // seconds
