@@ -7,11 +7,24 @@ import { scoreContext } from "../../contexts/ScoreContext";
 import { tabsData } from "./../../helpers/data";
 
 export default function Index() {
-  const { activeTab, setActiveTab,allMatches} = useContext(scoreContext);
+  const {
+    activeTab,
+    setActiveTab,
+    liveList,
+    finishedList,
+    nextList,
+    activeTabData,
+    setActiveTabData,
+  } = useContext(scoreContext);
 
   const handleTabChange = (value) => {
     setActiveTab(value);
-  };
+    const data = {
+      live: liveList,
+      finished: finishedList,
+      next: nextList,
+    };
+    setActiveTabData(data[activeTab]);  };
   return (
     <MainWrapper>
       <TabsWrapper>
@@ -26,7 +39,7 @@ export default function Index() {
         ))}
       </TabsWrapper>
       <Wrapper>
-        <Table data={allMatches} />
+        <Table data={activeTabData} />
       </Wrapper>
     </MainWrapper>
   );

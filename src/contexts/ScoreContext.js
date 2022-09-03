@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 
-import { matchesFinal } from "../helpers/data";
+import { matchesFinal, matchesLive, matchesNext } from "../helpers/data";
 
 export const scoreContext = React.createContext({});
 
 function Context({ children }) {
-  const [activeTab, setActiveTab] = useState("next");
-  const [allMatches, setAllMatches] = useState(matchesFinal);
-  const [liveList, setLiveList] = useState([]);
-  const [finishedList, setFinishedList] = useState([]);
-  const [nextList, setNextList] = useState([]);
+  const [activeTab, setActiveTab] = useState("live");
+  const [activeTabData, setActiveTabData] = useState(matchesNext);
+  const [liveList, setLiveList] = useState(matchesLive);
+  const [finishedList, setFinishedList] = useState(matchesFinal);
+  const [nextList, setNextList] = useState(matchesNext);
 
   return (
-      <scoreContext.Provider
-        value={{
-          activeTab,
-          setActiveTab,
-          liveList,
-          setLiveList,
-          allMatches,
-          setAllMatches,
-          finishedList,
-          setFinishedList,
-          nextList,
-          setNextList,
-        }}
-      >
-        {children}
-      </scoreContext.Provider>
+    <scoreContext.Provider
+      value={{
+        activeTab,
+        setActiveTab,
+        liveList,
+        setLiveList,
+        finishedList,
+        setFinishedList,
+        nextList,
+        setNextList,
+        activeTabData,
+        setActiveTabData,
+      }}
+    >
+      {children}
+    </scoreContext.Provider>
   );
 }
 
