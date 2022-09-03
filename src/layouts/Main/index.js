@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { MainWrapper, Tab, TabsWrapper, Wrapper } from "./style.elements";
 import Table from "../../components/Table";
@@ -16,15 +16,17 @@ export default function Index() {
     activeTabData,
     setActiveTabData,
   } = useContext(scoreContext);
-
-  const handleTabChange = (value) => {
-    setActiveTab(value);
+  const getTabData = () => {
     const data = {
       live: liveList,
       finished: finishedList,
       next: nextList,
     };
-    setActiveTabData(data[activeTab]);  };
+    return data[activeTab];
+  };
+  useEffect(() => {
+    setActiveTabData(getTabData)
+  }, [activeTab]);
   return (
     <MainWrapper>
       <TabsWrapper>
@@ -32,7 +34,7 @@ export default function Index() {
           <Tab
             key={index}
             background={tab === activeTab ? "#00003C" : null}
-            onClick={() => handleTabChange(tab)}
+            onClick={()=>setActiveTab(tab)}
           >
             {tab}
           </Tab>
