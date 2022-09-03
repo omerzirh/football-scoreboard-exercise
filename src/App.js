@@ -1,9 +1,11 @@
+import Main from "./layouts/Main";
+import Head from "./layouts/Head";
 function App() {
   return (
     <div>
-    <h1>Football World Cup Score Board</h1>
-    <p>This app shows matches and scores</p>
-  </div>
+      <Head />
+      <Main />
+    </div>
   );
 }
 
