@@ -1,6 +1,6 @@
 export const tabsData = ["live", "finished", "next"];
 
-export const nextData = [
+export const matchesFinal = [
   {
     key: 1,
     home: "Uruguay",

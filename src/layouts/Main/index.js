@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 
 import { MainWrapper, Tab, TabsWrapper, Wrapper } from "./style.elements";
 import Table from "../../components/Table";
+import { scoreContext } from "../../contexts/ScoreContext";
 
-import { nextData, tabsData } from "./../../helpers/data";
+import { tabsData } from "./../../helpers/data";
 
 export default function Index() {
-  const [activeTab, setActiveTab ] = useState('live');
+  const { activeTab, setActiveTab,allMatches} = useContext(scoreContext);
 
   const handleTabChange = (value) => {
     setActiveTab(value);
   };
-
-
   return (
     <MainWrapper>
       <TabsWrapper>
@@ -27,7 +26,7 @@ export default function Index() {
         ))}
       </TabsWrapper>
       <Wrapper>
-        <Table data={nextData} />
+        <Table data={allMatches} />
       </Wrapper>
     </MainWrapper>
   );
