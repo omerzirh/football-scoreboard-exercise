@@ -7,10 +7,10 @@ export const scoreContext = React.createContext({});
 function Context({ children }) {
   const [activeTab, setActiveTab] = useState("live");
   const [activeTabData, setActiveTabData] = useState(matchesLive);
-  const [liveList, setLiveList] = useState(matchesLive);
-  const [finishedList, setFinishedList] = useState(matchesFinal);
+  const [liveList, setLiveList] = useState([]);
+  const [finishedList, setFinishedList] = useState([]);
   const [nextList, setNextList] = useState(matchesNext);
-
+  const [matchesAll, setMatchesAll] = useState(matchesFinal);
   return (
     <scoreContext.Provider
       value={{
@@ -24,6 +24,8 @@ function Context({ children }) {
         setNextList,
         activeTabData,
         setActiveTabData,
+        matchesAll,
+        setMatchesAll,
       }}
     >
       {children}
