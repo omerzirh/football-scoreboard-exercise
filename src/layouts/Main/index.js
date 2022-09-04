@@ -26,7 +26,7 @@ export default function Index() {
   };
   useEffect(() => {
     setActiveTabData(getTabData);
-  }, [activeTab]);
+  }, [activeTab,liveList,finishedList,nextList]);
   return (
     <MainWrapper>
       <Live />

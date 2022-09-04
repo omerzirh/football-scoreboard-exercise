@@ -1,1 +1,1 @@
-export const MATCH_DURATION = 30; // seconds
+export const MATCH_DURATION = 15; // seconds

@@ -17,6 +17,7 @@ export const Wrapper = styled(Card)`
 `;
 export const HomeWrapper = styled(Wrapper)`
   background-color: #a86e6e;
+  width:100%;
 `;
 
 export const TimeWrapper = styled(Wrapper)`
@@ -29,17 +30,19 @@ export const AwayWrapper = styled(Wrapper)`
   border-radius: 0 10px 10px 0 !important;
 `;
 
-export const TeamLabel = styled.div`
+export const Label = styled.div`
+  color: white;
+`;
+export const TeamLabel = styled(Label)`
   font-size: 24px;
-  color: white;
 `;
-
-export const ScoreLabel = styled.div`
+export const ScoreLabel = styled(Label)`
   font-size: 32px;
-  color: white;
 `;
 
-export const TimeLabel = styled.div`
+export const TimeLabel = styled(Label)`
   font-size: 44px;
-  color: white;
+`;
+export const NoMatchLabel = styled(Label)`
+  font-size: 24;
 `;

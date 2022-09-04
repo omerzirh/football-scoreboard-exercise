@@ -3,6 +3,8 @@ import {
   AwayWrapper,
   BoardWrapper,
   HomeWrapper,
+  Label,
+  NoMatchLabel,
   ScoreLabel,
   TeamLabel,
   TimeLabel,
@@ -10,7 +12,7 @@ import {
 } from "./style.elements";
 import { scoreContext } from "../../contexts/ScoreContext";
 import { MATCH_DURATION } from "../../helpers/constants";
-import { generateRandomArr } from "../../helpers/helper";
+import { generateRandomArr, getGoalIntervals } from "../../helpers/helper";
 
 export default function Index() {
   const [seconds, setSeconds] = useState(0);
@@ -20,30 +22,40 @@ export default function Index() {
   const [awayScore, setAwayScore] = useState(0);
   const [homeName, setHomeName] = useState("");
   const [awayName, setAwayName] = useState("");
-  const [currMatch, setCurrentMatch] = useState(0);
-
-  const { nextList,finishedList } = useContext(scoreContext);
+  const [currMatchIndex, setCurrentMatchIndex] = useState(0);
+  const [liveActive, setLiveActive] = useState(true);
+  const {
+    nextList,
+    setNextList,
+    finishedList,
+    setFinishedList,
+    matchesAll,
+    liveList,
+    setLiveList,
+  } = useContext(scoreContext);
+  const [currMatch, setCurrMatch] = useState(nextList[0]);
 
   const refreshState = () => {
     setSeconds(0);
     setHomeScore(0);
     setAwayScore(0);
     setMinutes(0);
-    //TODO: Add a check to ensure it does not exceed nextData.length.
-    setCurrentMatch((currMatch) => {
+    setCurrentMatchIndex((currMatch) => {
       return (currMatch += 1);
     });
   };
 
   const displayScore = (home, away) => {
-    // TODO: maybe change the generateRandomArr function so that it returns two arrays with unique values to avoid two teams scoring a goal at the same time.
-    const homeTimeInterval = generateRandomArr(home, MATCH_DURATION, 1);
-    const awayTimeInterval = generateRandomArr(away, MATCH_DURATION, 1);
+    const randomGoalTimes = getGoalIntervals(home, away, MATCH_DURATION);
+    const homeTimeInterval = randomGoalTimes[0];
+    const awayTimeInterval = randomGoalTimes[1];
 
     let timeLeft = MATCH_DURATION;
 
     let timer = setInterval(function () {
       if (timeLeft === 0) {
+        setNextList((nextList) => nextList.filter((_, index) => index !== 0));
+        setFinishedList((current) => [...current, matchesAll[currMatchIndex]]);
         refreshState();
         clearInterval(timer);
         return;
@@ -56,12 +68,11 @@ export default function Index() {
         setHomeScore((homeScore) => homeScore + 1);
         homeTimeInterval.pop();
       }
+
       setSeconds((seconds) => seconds + 1);
       timeLeft -= 1;
     }, 1000);
   };
-
- 
 
   useEffect(() => {
     setTimer(
@@ -69,28 +80,63 @@ export default function Index() {
         ":" +
         (seconds > 9 ? seconds : "0" + seconds)
     );
+    setLiveList([
+      {
+        key: 1,
+        home: homeName,
+        away: awayName,
+        homeScore: homeScore,
+        awayScore: awayScore,
+        status: timer,
+      },
+    ]);
   }, [seconds]);
   useEffect(() => {
-    setHomeName(nextList[currMatch].home);
-    setAwayName(nextList[currMatch].away);
-    displayScore(finishedList[currMatch].homeScore, finishedList[currMatch].awayScore);
-  }, [currMatch]);
-  //TODO handle names longer than 10 letters
+    if (currMatchIndex === matchesAll.length) {
+      setLiveActive(false);
+      setLiveList([]);
+    } else {
+      setHomeName(nextList[0].home);
+      setAwayName(nextList[0].away);
+
+      displayScore(
+        matchesAll[currMatchIndex].homeScore,
+        matchesAll[currMatchIndex].awayScore
+      );
+    }
+  }, [currMatchIndex]);
   return (
-    <div>
-      <BoardWrapper>
-        <HomeWrapper>
-          <TeamLabel>{homeName}</TeamLabel>
-          <ScoreLabel>{homeScore}</ScoreLabel>
-        </HomeWrapper>
-        <TimeWrapper>
-          <TimeLabel>{timer}</TimeLabel>
-        </TimeWrapper>
-        <AwayWrapper>
-          <TeamLabel>{awayName}</TeamLabel>
-          <ScoreLabel>{awayScore}</ScoreLabel>
-        </AwayWrapper>
-      </BoardWrapper>
-    </div>
+    <BoardWrapper>
+      <HomeWrapper>
+        {liveActive ? (
+          <>
+            <TeamLabel>{homeName}</TeamLabel>
+            <ScoreLabel>{homeScore}</ScoreLabel>
+          </>
+        ) : (
+          <NoMatchLabel>&#8212;</NoMatchLabel>
+        )}
+      </HomeWrapper>
+      <TimeWrapper>
+        {liveActive ? (
+          <>
+            <Label>Live</Label>
+            <TimeLabel>{timer}</TimeLabel>
+          </>
+        ) : (
+          <NoMatchLabel>No Live Match</NoMatchLabel>
+        )}
+      </TimeWrapper>
+      <AwayWrapper>
+        {liveActive ? (
+          <>
+            <TeamLabel>{awayName}</TeamLabel>
+            <ScoreLabel>{awayScore}</ScoreLabel>
+          </>
+        ) : (
+          <NoMatchLabel>&#8212;</NoMatchLabel>
+        )}
+      </AwayWrapper>
+    </BoardWrapper>
   );
 }

@@ -10,9 +10,21 @@ export const generateRandomArr = (length, max, min) => {
     const newNumber = Math.floor(Math.random() * (max - min)) + min;
     resultsArr.includes(newNumber) ? (length += 1) : resultsArr.push(newNumber);
   }
-  return resultsArr
-    .sort((a, b) => {
-      return a - b;
-    })
-    .reverse();
+  return resultsArr;
+};
+export const getGoalIntervals=(home,away,duration)=>{
+  const randomGoalTimes = generateRandomArr(home + away, duration, 1);
+    const homeTimeInterval = randomGoalTimes
+      .slice(0, home)
+      .sort((a, b) => {
+        return a - b;
+      })
+      .reverse();
+    const awayTimeInterval = randomGoalTimes
+      .slice(home)
+      .sort((a, b) => {
+        return a - b;
+      })
+      .reverse();
+return [homeTimeInterval,awayTimeInterval];
 };
