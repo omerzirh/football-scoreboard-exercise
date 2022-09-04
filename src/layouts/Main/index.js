@@ -5,6 +5,7 @@ import Table from "../../components/Table";
 import Live from "../../containers/Live";
 import { scoreContext } from "../../contexts/ScoreContext";
 import { tabsData } from "./../../helpers/data";
+import { upperCaseFirstLetter } from "../../helpers/helper";
 
 export default function Index() {
   const {
@@ -19,8 +20,8 @@ export default function Index() {
   const getTabData = () => {
     const data = {
       live: liveList,
-      finished: finishedList,
-      next: nextList,
+      results: finishedList,
+      fixtures: nextList,
     };
     return data[activeTab];
   };
@@ -37,7 +38,7 @@ export default function Index() {
             background={tab === activeTab ? "#00003C" : null}
             onClick={() => setActiveTab(tab)}
           >
-            {tab}
+            {upperCaseFirstLetter(tab)}
           </Tab>
         ))}
       </TabsWrapper>

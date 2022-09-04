@@ -1,4 +1,4 @@
-export const tabsData = ["live", "finished", "next"];
+export const tabsData = ["live", "results", "fixtures"];
 
 export const matchesFinal = [
   {
@@ -42,14 +42,6 @@ export const matchesFinal = [
     status: "finished",
   }
 ];
-export const matchesLive=[  {
-  key: 1,
-  home: "Germany",
-  away: "France",
-  homeScore: 0,
-  awayScore: 1,
-  status: "live",
-}]
 export const matchesNext = [
   {
     key: 1,

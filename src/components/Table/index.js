@@ -1,4 +1,5 @@
 import React from "react";
+import { upperCaseFirstLetter } from "../../helpers/helper";
 import { Table, TableBody, TableData } from "./style.elements";
 
 export default function Index(props) {
@@ -12,7 +13,7 @@ export default function Index(props) {
               <TableData>{match.away}</TableData>
               <TableData>{match.homeScore}</TableData>
               <TableData>{match.awayScore}</TableData>
-              <TableData>{match.status}</TableData>
+              <TableData>{upperCaseFirstLetter(match.status)}</TableData>
             </tr>
           ))}
         </TableBody>
