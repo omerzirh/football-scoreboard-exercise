@@ -2,8 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import {
   AwayWrapper,
   BoardWrapper,
+  HalftimeLabel,
   HomeWrapper,
   Label,
+  LiveLabel,
   NoMatchLabel,
   ScoreLabel,
   TeamLabel,
@@ -24,7 +26,8 @@ export default function Index() {
   const [awayName, setAwayName] = useState("");
   const [currMatchIndex, setCurrentMatchIndex] = useState(0);
   const [liveActive, setLiveActive] = useState(true);
-  const [halfTime, setHalfTime] = useState(false);
+  const [halfTimeActive, setHalfTimeActive] = useState(false);
+  const [halfTime, setHalfTime] = useState(HALFTIME_DURATION);
   const { nextList, setNextList, setFinishedList, matchesAll, setLiveList } =
     useContext(scoreContext);
 
@@ -67,10 +70,13 @@ export default function Index() {
         countdown <= MATCH_DURATION / 2 + HALFTIME_DURATION &&
         countdown > MATCH_DURATION / 2
       ) {
+        setHalfTimeActive(true);
         countdown -= 1;
-        setHalfTime(true);
+        setHalfTime(countdown-timeLeft);
+
+        console.log("halftime:",countdown-timeLeft);
       } else {
-        setHalfTime(false);
+        setHalfTimeActive(false);
         setSeconds((seconds) => seconds + 1);
         countdown -= 1;
         timeLeft -= 1;
@@ -124,7 +130,8 @@ export default function Index() {
       <TimeWrapper>
         {liveActive ? (
           <>
-            <Label>{halfTime?<>HALFTIME</>:<>LIVE</>}</Label>
+            <LiveLabel>{halfTimeActive?<>HALFTIME</>:<>LIVE</>}</LiveLabel>
+            <HalftimeLabel>{halfTimeActive?halfTime:null}</HalftimeLabel>
             <TimeLabel>{timer}</TimeLabel>
           </>
         ) : (

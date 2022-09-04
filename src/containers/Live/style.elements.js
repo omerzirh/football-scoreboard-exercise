@@ -41,6 +41,10 @@ export const Label = styled.div`
   color: white;
 
 `;
+export const LiveLabel = styled.div`
+  color: white;
+  margin-bottom: -5px;
+`;
 export const TeamLabel = styled(Label)`
   font-size: 24px;
   @media only screen and (max-width: 640px) {
@@ -55,11 +59,18 @@ export const ScoreLabel = styled(Label)`
 `;
 
 export const TimeLabel = styled(Label)`
+margin-top: -5px;
   font-size: 44px;
   @media only screen and (max-width: 640px) {
+margin-top: -8px;
+
    font-size:28px;
   }
 `;
+export const HalftimeLabel = styled(Label)`
+font-size:12px;
+`;
+
 export const NoMatchLabel = styled(Label)`
   font-size: 24;
   @media only screen and (max-width: 640px) {
