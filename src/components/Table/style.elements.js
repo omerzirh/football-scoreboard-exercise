@@ -13,10 +13,6 @@ export const TH = styled.th`
 
 export const TableData = styled.td`
   padding: 1rem 1rem 0.5rem 0;
-
-  @media only screen and (min-width: 1020px) {
-    width: 25%;
-  }
 `;
 export const Table = styled.table`
   width: 100%;
