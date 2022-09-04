@@ -73,8 +73,6 @@ export default function Index() {
         setHalfTimeActive(true);
         countdown -= 1;
         setHalfTime(countdown-timeLeft);
-
-        console.log("halftime:",countdown-timeLeft);
       } else {
         setHalfTimeActive(false);
         setSeconds((seconds) => seconds + 1);
