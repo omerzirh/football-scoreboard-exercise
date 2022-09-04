@@ -12,19 +12,26 @@ export const generateRandomArr = (length, max, min) => {
   }
   return resultsArr;
 };
-export const getGoalIntervals=(home,away,duration)=>{
+export const getGoalIntervals = (home, away, duration) => {
   const randomGoalTimes = generateRandomArr(home + away, duration, 1);
-    const homeTimeInterval = randomGoalTimes
-      .slice(0, home)
-      .sort((a, b) => {
-        return a - b;
-      })
-      .reverse();
-    const awayTimeInterval = randomGoalTimes
-      .slice(home)
-      .sort((a, b) => {
-        return a - b;
-      })
-      .reverse();
-return [homeTimeInterval,awayTimeInterval];
+  const homeTimeInterval = randomGoalTimes
+    .slice(0, home)
+    .sort((a, b) => {
+      return a - b;
+    })
+    .reverse();
+  const awayTimeInterval = randomGoalTimes
+    .slice(home)
+    .sort((a, b) => {
+      return a - b;
+    })
+    .reverse();
+  return [homeTimeInterval, awayTimeInterval];
+};
+export const getTimeStr = (minutes, seconds) => {
+  return (
+    (minutes > 9 ? minutes : "0" + minutes) +
+    ":" +
+    (seconds > 9 ? seconds : "0" + seconds)
+  );
 };

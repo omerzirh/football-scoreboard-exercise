@@ -12,7 +12,10 @@ import {
 } from "./style.elements";
 import { scoreContext } from "../../contexts/ScoreContext";
 import { MATCH_DURATION } from "../../helpers/constants";
-import { generateRandomArr, getGoalIntervals } from "../../helpers/helper";
+import {
+  getGoalIntervals,
+  getTimeStr,
+} from "../../helpers/helper";
 
 export default function Index() {
   const [seconds, setSeconds] = useState(0);
@@ -27,24 +30,21 @@ export default function Index() {
   const {
     nextList,
     setNextList,
-    finishedList,
     setFinishedList,
     matchesAll,
-    liveList,
     setLiveList,
   } = useContext(scoreContext);
-  const [currMatch, setCurrMatch] = useState(nextList[0]);
 
-  const refreshState = () => {
+  //refresh state when a match finished
+  const refreshState = () => {   
     setSeconds(0);
     setHomeScore(0);
     setAwayScore(0);
     setMinutes(0);
-    setCurrentMatchIndex((currMatch) => {
-      return (currMatch += 1);
-    });
+    setCurrentMatchIndex((currMatch) => currMatch+1);
   };
 
+  //create random goal intervals and make the goals when interval equal to timeleft
   const displayScore = (home, away) => {
     const randomGoalTimes = getGoalIntervals(home, away, MATCH_DURATION);
     const homeTimeInterval = randomGoalTimes[0];
@@ -73,32 +73,30 @@ export default function Index() {
       timeLeft -= 1;
     }, 1000);
   };
-
+//update scoreboard timer and live table timer
   useEffect(() => {
-    setTimer(
-      (minutes > 9 ? minutes : "0" + minutes) +
-        ":" +
-        (seconds > 9 ? seconds : "0" + seconds)
-    );
-    setLiveList([
-      {
-        key: 1,
-        home: homeName,
-        away: awayName,
-        homeScore: homeScore,
-        awayScore: awayScore,
-        status: timer,
-      },
-    ]);
+    setTimer(getTimeStr(minutes, seconds));
+    if (seconds >=1 )
+     { setLiveList([
+        {
+          key: 1,
+          home: homeName,
+          away: awayName,
+          homeScore: homeScore,
+          awayScore: awayScore,
+          status: getTimeStr(minutes, seconds),
+        },
+      ]);}
   }, [seconds]);
+
+  
   useEffect(() => {
-    if (currMatchIndex === matchesAll.length) {
+    if (currMatchIndex === matchesAll.length) {  //handle when matches finished
       setLiveActive(false);
       setLiveList([]);
-    } else {
-      setHomeName(nextList[0].home);
+    } else {                                  //update next match
+      setHomeName(nextList[0].home);    
       setAwayName(nextList[0].away);
-
       displayScore(
         matchesAll[currMatchIndex].homeScore,
         matchesAll[currMatchIndex].awayScore
